@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.params=
+comment0.target=PersonalityList()
+comment0.text=\r\nconstructor\ to\ initialise\ the\ arraylist\r\n
+comment1.params=pObjectName
+comment1.target=void\ addPersonality(Personality)
+comment1.text=\r\nmethod\ to\ add\ a\ personality\ object\ to\ the\ arraylist\r\n
+comment2.params=
+comment2.target=int\ getSize()
+comment2.text=\r\nmethod\ to\ return\ the\ total\ number\ of\ items\ in\ pList\r\n
+comment3.params=
+comment3.target=void\ list()
+comment3.text=\r\nmethod\ to\ print\ details\ on\ all\ items\ within\ pList\ by\ using\ getDetails\ for\ personality\ class\r\n
+comment4.params=name
+comment4.target=void\ voteFor(java.lang.String)
+comment4.text=\r\n\ \ method\ to\ find\ an\ object\ using\ its\ name\ field\ then\ increment\ the\ value\ of\ it's\ vote\ field\ by\ 1\r\n\ \ if\ name\ matches\ exactly\ then\ add\ 1\ to\ votes\ otherwise\ index\ incremented\ and\ loops\ again\ until\ found\ or\ index\ equals\ size\ of\ arraylist(pList)\r\n\ \ if\ found\ loop\ is\ terminated\r\n\ \ if\ index\ equals\ size\ then\ error\ is\ printed\ and\ loop\ is\ terminated\r\n
+comment5.params=minimumVotes
+comment5.target=void\ shortlist(int)
+comment5.text=\r\nmethod\ to\ remove\ entries\ from\ pList\ if\ they\ have\ less\ votes\ than\ the\ parameter\ entered\r\n
+comment6.params=newSize
+comment6.target=java.util.ArrayList\ top(int)
+comment6.text=\r\n\ method\ to\ return\ an\ arraylist\ containing\ only\ a\ given\ number\ of\ entries\ and\ based\ on\ order\ of\ votes\r\n
+comment7.params=p1\ p2
+comment7.target=int\ compare(Personality,\ Personality)
+numComments=8

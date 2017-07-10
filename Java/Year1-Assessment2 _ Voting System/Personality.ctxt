@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=name\ sport
+comment0.target=Personality(java.lang.String,\ java.lang.String)
+comment0.text=\r\nconstructor\ to\ inisalise\ object\ with\ 2\ inputed\ strings\ and\ fixed\ value\ 0\ for\ votes\r\n
+comment1.params=
+comment1.target=java.lang.String\ getName()
+comment1.text=\r\naccessor\ for\ name\r\n
+comment2.params=
+comment2.target=java.lang.String\ getSport()
+comment2.text=\r\naccessor\ for\ sport\r\n
+comment3.params=
+comment3.target=int\ getVotes()
+comment3.text=\r\naccessor\ for\ votes\r\n
+comment4.params=numberOfVotes
+comment4.target=void\ increaseVotes(int)
+comment4.text=\r\nmutator\ to\ increase\ votes\ by\ given\ parameter\ \r\nno\ checks\ to\ do,\ assumption\ that\ checked\ prior\ to\ entry\r\n
+comment5.params=
+comment5.target=java.lang.String\ getDetails()
+comment5.text=\r\naccessor\ to\ create\ then\ return\ a\ string\ containing\ details\ of\ the\ object\r\nsimple\ check\ so\ if\ number\ of\ votes\ is\ 0\ OR\ greater\ than\ 1\ the\ string\ will\ display\ n\ votes\r\nif\ votes\ equals\ 1\ the\ string\ will\ display\ n\ vote\r\n
+numComments=6

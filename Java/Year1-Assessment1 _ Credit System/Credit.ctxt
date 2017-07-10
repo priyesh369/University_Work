@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Credit()
+comment1.params=enterCredit
+comment1.target=Credit(int)
+comment2.params=
+comment2.target=int\ getCredit()
+comment3.params=enterCredit
+comment3.target=void\ setCredit(int)
+comment4.params=topUpValue
+comment4.target=void\ topUp(int)
+comment5.params=reductionValue
+comment5.target=void\ reduceCredit(int)
+numComments=6

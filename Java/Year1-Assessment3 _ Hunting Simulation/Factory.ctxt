@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=view
+comment0.target=void\ setupColors(SimulatorView)
+comment1.params=field\ location
+comment1.target=Actor\ optionallyCreateActor(Field,\ Location)
+numComments=2

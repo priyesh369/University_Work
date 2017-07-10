@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Text editor</title>
+		
+		<style>
+		#textArea 
+		{
+			width:66%;
+			height:93%;
+			float:right;
+			background-color:#ffffff;
+			margin-left: 1%;
+			margin-top: 1%;
+			margin-bottom: 1%;
+			padding:2%; 
+		}
+		footer 
+		{
+			background-color:#000000;
+			color:white;
+			clear:both;
+			text-align:right;
+			padding:5px; 
+		}
+		#editPanel 
+		{
+			width:29%;
+			height:96%;
+			float:left;
+			background-color:#0c9d7c;
+			text-align:center;
+			padding-top: 2%;
+			padding-bottom: 2%;
+		}
+		#editPanel button
+		{
+			width:80%;
+		}
+		header 
+		{
+			background-color:#000000;
+			color:white;
+			text-align:center;
+			padding:10px; 
+			height:20px;
+		}
+		body
+		{
+		background-color:#9d0c2d;
+		}
+		#wrapper 
+		{
+			margin-left:auto;
+			margin-right:auto;
+			width:600px;
+			height:500px;
+		}
+		
+		</style>
+
+		<script>
+		function boldtext () 
+		{
+		var button = document.getElementById("boldButton").style.backgroundColor;
+		
+			if(button == "")
+			{
+			document.getElementById('textArea').style.fontWeight = "bold";
+			document.getElementById("boldButton").style.backgroundColor = "#33ccff";
+			}
+			else
+			{
+			document.getElementById('textArea').style.fontWeight = "normal";
+			document.getElementById("boldButton").style.backgroundColor = "";
+			}
+		}
+		
+		function italictext () 
+		{
+		var button = document.getElementById("italicButton").style.backgroundColor;
+		
+			if(button == "")
+			{
+			document.getElementById('textArea').style.fontStyle = "italic";
+			document.getElementById("italicButton").style.backgroundColor = "#33ccff";
+			}
+			else
+			{
+			document.getElementById('textArea').style.fontStyle = "normal";
+			document.getElementById("italicButton").style.backgroundColor = "";
+			}
+		}
+		
+		function underlinetext () 
+		{
+		var button = document.getElementById("underlineButton").style.backgroundColor;
+		
+			if(button == "")
+			{
+			document.getElementById('textArea').style.textDecoration = "underline";
+			document.getElementById("underlineButton").style.backgroundColor = "#33ccff";
+			}
+			else
+			{
+			document.getElementById('textArea').style.textDecoration = "none";
+			document.getElementById("underlineButton").style.backgroundColor = "";
+			}
+		}
+		</script>
+	</head>
+
+	<body id = "wrapper">
+		
+		<header>
+		Priyesh's Super Text Editor 2000!
+		</header>
+		
+		<div id = "editPanel">
+		<button type = "button" id = "boldButton" onclick= "boldtext();">Bold</button><br></br>
+		<button type = "button" id = "italicButton" onclick= "italictext();">Italic</button><br></br>
+		<button type = "button" id = "underlineButton" onclick = "underlinetext();">Underline</button><br></br>
+		
+		
+		
+		</div>
+
+		
+		<div id = "textArea" contenteditable="true">
+		Enter text here...
+		</div>
+		
+
+		<footer>
+		Priyesh Rajeevkumar Patel
+		</footer>
+</html>
