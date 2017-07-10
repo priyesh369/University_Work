@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>prp6 Assessment 2</title>
+		<style>
+			#pageBar {
+				line-height:30px;
+				background-color:#3b3a36;
+				height:20pt;
+				text-align:center;
+				padding:10px;
+				color:#ffffff;
+				width:1280px;
+				border-left:#76323F 5px solid;
+				border-right:#76323F 5px solid;
+			}
+			#pageBar button{
+				padding: 5px;
+				font-weight: bold;
+				width: 60px;
+			}
+			#pageBar ul {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				background-color:#3b3a36;
+			}
+			li {
+				display: inline;
+				padding-left: 5px;
+				padding-right: 5px;
+		 	}
+			table, td, th {
+				border: 1px solid black;
+				padding: 5px;
+			}
+			table {
+				border-collapse: collapse;
+				width: 100%;
+			}
+			table button{
+				padding: 5px;
+				width: 100%;
+				font-weight: bold;
+			}
+			th {
+				text-align: left;
+			}
+			#contentArea {
+				width:1280px;
+				height:100%;
+				background-color:#D7CEC7;
+				border:#76323F 5px solid;
+				margin:0px;
+				padding:10px;
+			}
+			form {
+				text-align: center;
+				margin: 0 auto;
+				width:100%;
+				padding:10px;
+			}
+			footer {
+				background-color:#C09F80;
+				color:black;
+				clear:both;
+				text-align:right;
+				border:#76323F 5px solid;
+				padding:5px;
+				width:1290px;
+				font-size: 14pt;
+				font-weight: bold;
+			}
+			header {
+				background-color:#C09F80;
+				color:black;
+				text-align:center;
+				border:#76323F 5px solid;
+				padding-top:10px;
+				padding-bottom:10px;
+				margin:0px;
+				height:auto;
+				width:1300px;
+				font-size: 40pt;
+				font-weight: bold;
+			}
+			body {
+				background-color:#565656;
+			}
+			#wrapper {
+				margin-left:auto;
+				margin-right:auto;
+				width:1300px;
+				min-height:500px;
+			}
+		</style>
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+		<script>
+			var hygieneLOC = "https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/hygiene.php"; //base url for hygiene script so I don't have to type it everywhere
+			var ratingLOC = "https://www.cs.kent.ac.uk/people/staff/lb514/hygiene/rating.php"; //base url for rating script so I don't have to type it everywhere
+			$(document).ready(function(){
+
+				/*base function to be called by others in order get and display hygiene
+				data with use of ajax get method so as to avoid some code duplication*/
+				function hygieneDataGetAndDisplay(parameters){
+					var rows = "";
+					var params = {};
+					if(parameters){
+						params = parameters;
+					}
+
+					$.get(hygieneLOC, params, function(data){
+						for(var i in data){
+							rows += "<tr><td>"+data[i].business
+							+"</td><td>"+data[i].address
+							+"</td><td>"+data[i].rating
+							+"</td><td>"+data[i].date
+							+"</td><td><button class = 'cRatingsButton' value='"+data[i].business+"'>rating</button></td></tr>";
+						}
+						$("#resultTableBody").empty().append(rows);
+					},"JSON");
+				}
+
+				//Populate the inital table
+				hygieneDataGetAndDisplay();
+
+				//Populate the paginator
+				var buttons = "";
+				$.get(hygieneLOC,{op : "pages"}, function(data){
+					for(var p = 1; p <= data.pages; p++){
+						buttons += "<li><button class = 'page_button' value = "+p+">"+p+"</button></li>";
+					}
+					$("#pageBarContent").append(buttons);
+				},"JSON");
+
+				//get and populate the table with data relevant to the user inputted searchQuery
+				$('#searchForm').submit(function(){
+					var p = {op : "searchname", name : $("#searchQuery").val()};
+					hygieneDataGetAndDisplay(p);
+					return false;
+				});
+
+				//add event handlers on to the page buttons to retrieve and populate the table with the corresponding page
+				$('#pageBar').on('click', '.page_button', function(){
+					var p = {op : "retrieve", page : $(this).val()};
+					hygieneDataGetAndDisplay(p);
+				});
+				//add event handlers on to the rating buttons to get and display customer ratings in a pop up via alert
+				$('#resultTable').on('click', '.cRatingsButton', function(){
+					var businessName = $(this).val();
+							$.get(ratingLOC,{name : businessName}, function(data){
+									if(data.length == 1 && data[0].rating !== ""){
+										alert("Customer rating is: "+ data[0].rating);
+										return;
+									}
+									/*if there is more then 1 result then a postcode check is performed until match found or results exhausted
+									first the businessName is searched in hygieneLOC to get the business and its postcode for checking
+									while there is a next rating result if the name from hygieneLOC search is only one then check the postcode
+									is a substring of rating address, if match alert then return. else loop to next rating result. if search in
+									hygieneLOC returned more than one result then check against each one for match and alert if match else loop.
+									if all fails then no rating found is alerted.
+									*/
+									else if (data.length > 1) {
+										var ratingsHolder = data;
+										$.get(hygieneLOC,{op : "searchname", name :businessName}, function(hdata){
+											var i = 0;
+
+											while(i < ratingsHolder.length){
+												if(hdata.length == 1){
+													if(ratingsHolder[i].address.indexOf(hdata[0].postcode) !== -1){
+														alert("Customer rating is: "+ ratingsHolder[i].rating);
+														return;
+													}
+													else {
+														i++;
+													}
+												}
+												else if(hdata.length > 1){
+													for(var j in hdata){
+														if(ratingsHolder[i].address.indexOf(hdata[j].postcode) !== -1){
+															alert("Customer rating is: "+ ratingsHolder[i].rating);
+															return;
+														}
+													}
+													i++;
+												}
+											}
+										},"JSON")
+									}
+									else{
+										alert("No customer rating available");
+									}
+							},"JSON");
+				});
+
+			});
+		</script>
+	</head>
+
+	<body id ="wrapper">
+		<header>Canterbury Appetition</header>
+		<div id = "pageBar">
+		<ul id="pageBarContent">Pages:</ul>
+	</div>
+		<div id = "contentArea">
+			<p>
+				Welcome to Canterbury Appetition, where we save you the worry of finding the best places to eat
+				by providing hygiene and customer ratings of all places in Canterbury. The table below will give you
+				this data as well as the option to get customer ratings by pressing the button at the end of each row.
+			</p>
+
+			<table id = "resultTable">
+				<tr><th>Business</th><th>Address</th><th>Hygiene Rating</th><th>Date</th><th>Customer Rating</th></tr>
+				<tbody id = "resultTableBody"></tbody>
+			</table>
+
+			<form id = "searchForm">
+				Business Name: <input type="text" id="searchQuery"></input>
+				<input type="submit" value="Search"></input>
+			</form>
+		</div>
+
+		<footer>Priyesh Patel - prp6</footer>
+	</body>
+</html>

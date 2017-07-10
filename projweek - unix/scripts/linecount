@@ -1,0 +1,8 @@
+#!/bin/bash
+#dirtolist
+export dir ="/courses/projweek/unix/commands/quotes"
+export count=""
+for file in `ls $dir ; do
+count=`cat $dir/$file | wc -1`
+echo "the file $file has $count lines"
+done

@@ -1,0 +1,27 @@
+% math5.tex -- sample document (with maths!)
+% Fred Barnes, March 2014.
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{graphicx}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\noindent Beta-reduction in the lambda-calculus is defined by substitution:
+\begin{align}
+	(\lambda v.E)\ x &\quad\longrightarrow_{\beta}\quad E[x/v]\\
+	(\lambda vw.E)\ x &\quad\longrightarrow_{\beta}\quad \lambda w.(E[x/v])
+\end{align}
+where $x$ may be any lambda term (variable, function or application).  E.g.:
+\begin{multline}
+	(\lambda xy.(y\,(x\,x\,y)))\:(\lambda xy.(y\,(x\,x\,y)))\\
+	\longrightarrow_{\beta} \lambda y.(y\,((\lambda xy.(y\,(x\,x\,y)))\:(\lambda xy.(y\,(x\,x\,y)))\, y))
+\end{multline}
+
+\end{document}
+\endinput
+

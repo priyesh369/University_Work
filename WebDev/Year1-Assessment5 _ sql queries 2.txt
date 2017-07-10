@@ -1,0 +1,199 @@
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*+++++++++++++++++++++++++ TASK 1 +++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/*================ Creating Tables ================*/
+
+/* Player Table */
+CREATE TABLE Player (
+playerID SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+gender CHAR(1) CHECK ( gender IN ('F','M')) NOT NULL,
+dob DATE NOT NULL,
+address VARCHAR(200),
+telNo VARCHAR(15),
+NHSNo VARCHAR(15) UNIQUE
+);
+
+/* Stadium Table */
+CREATE TABLE Stadium (
+stadiumID SERIAL PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+address VARCHAR(200) NOT NULL,
+telNo VARCHAR(12) NOT NULL
+);
+
+/* Court Table */
+CREATE TABLE Court (
+courtNo SERIAL PRIMARY KEY,
+location VARCHAR(100) NOT NULL
+);
+
+/* Coach Table */
+CREATE TABLE Coach (
+coachID VARCHAR(10) PRIMARY KEY,
+name VARCHAR(100) NOT NULL,
+gender CHAR(1) CHECK ( gender IN ('F','M')) NOT NULL,
+address VARCHAR(200),
+telNo VARCHAR(15),
+courtNo SERIAL NOT NULL,
+FOREIGN KEY(courtNo) REFERENCES Court(courtNo)
+);
+
+/* Training Table */
+CREATE TABLE Training (
+playerID SERIAL NOT NULL,
+onDate DATE NOT NULL,
+atTime TIME NOT NULL,
+coachID VARCHAR(10) NOT NULL,
+PRIMARY KEY(playerID, onDate, atTime),
+UNIQUE(coachID, onDate, atTime),
+FOREIGN KEY(playerID) REFERENCES Player(playerID),
+FOREIGN KEY(coachID) REFERENCES Coach(coachID)
+);
+
+/* Tournament Table */
+CREATE TABLE Tournament (
+onDate DATE NOT NULL,
+result VARCHAR(4) CHECK ( result IN ('Win','Lose')),
+coachID VARCHAR(10) NOT NULL,
+stadiumID SERIAL NOT NULL,
+PRIMARY KEY(onDate, stadiumID),
+UNIQUE(onDate, coachID),
+FOREIGN KEY(stadiumID) REFERENCES Stadium(stadiumID),
+FOREIGN KEY(coachID) REFERENCES Coach(coachID)
+);
+
+/* PlayTour Table */
+CREATE TABLE PlayTour (
+playerID SERIAL NOT NULL,
+onDate DATE NOT NULL,
+stadiumID SERIAL NOT NULL,
+PRIMARY KEY(playerID, onDate, stadiumID),
+FOREIGN KEY(playerID) REFERENCES Player(playerID),
+FOREIGN KEY(onDate, stadiumID) REFERENCES Tournament(onDate, stadiumID)
+);
+
+/*================ Inserting Data ================*/
+
+/* Player Table */
+INSERT INTO Player (playerID, name, gender, dob, address, telNo, NHSNo)
+VALUES('1', 'Wayne Bow', 'M', '1985-02-13', '1 The Sidings, Canterbury', '04695654978', '912-968-5287');
+INSERT INTO Player (playerID, name, gender, dob, address, telNo, NHSNo)
+VALUES('2', 'Sue Flay', 'F', '1992-11-01', '34 High Street, Maidstone', '0116 629136', '021-932-1529');
+INSERT INTO Player (playerID, name, gender, dob, address, telNo, NHSNo)
+VALUES('3', 'Mike Stand', 'M', '1987-05-21', ' 34 High Street, Maidstone', '07557 812015', '119-034-9814');
+INSERT INTO Player (playerID, name, gender, dob, address, telNo, NHSNo)
+VALUES('4', 'Sue Flay', 'F', '1979-09-01', '3 The Sidings, Canterbury', '08877903102', '010-692-0013');
+
+/* Stadium Table */
+INSERT INTO Stadium (stadiumID, name, address, telNo)
+VALUES('1', 'City Centre Stadium', '12 Main Lane, CT1 7RQ', '01227829567');
+INSERT INTO Stadium (stadiumID, name, address, telNo)
+VALUES('2', 'Olympic Stadium', '52 Thanet Way ME4 0RY', '07337-612-965');
+
+/* Court Table */
+INSERT INTO Court (courtNo, location)
+VALUES('1', 'corridor 1');
+INSERT INTO Court (courtNo, location)
+VALUES('3', 'corridor 8');
+INSERT INTO Court (courtNo, location)
+VALUES('7', 'corridor 3');
+INSERT INTO Court (courtNo, location)
+VALUES('9', 'new annexe');
+
+/* Coach Table */
+INSERT INTO Coach (coachID, name, gender, address, telNo, courtNo)
+VALUES('I2', 'Yasser Crimp', 'M', '1 The Sidings, Canterbury', '08877173458','9');
+INSERT INTO Coach (coachID, name, gender, address, telNo, courtNo)
+VALUES('I1', 'Jane Smith', 'F', 'Beach Cottage, Sandwich', '06518754368','1');
+INSERT INTO Coach (coachID, name, gender, address, telNo, courtNo)
+VALUES('I3', 'Jane Jones', 'F', '123 Stone Street, Pelham', '004477546643334','3');
+
+/* Training Table */
+INSERT INTO Training (playerID, onDate, atTime, coachID)
+VALUES ('2', '2017-02-25', '10:00', 'I1');
+INSERT INTO Training (playerID, onDate, atTime, coachID)
+VALUES ('2', '2017-01-09', '16:00', 'I2');
+INSERT INTO Training (playerID, onDate, atTime, coachID)
+VALUES ('3', '2017-02-25', '12:00', 'I2');
+INSERT INTO Training (playerID, onDate, atTime, coachID)
+VALUES ('2', '2017-02-26', '10:00', 'I2');
+INSERT INTO Training (playerID, onDate, atTime, coachID)
+VALUES ('4', '2017-01-25', '10:00', 'I3');
+
+/* Tournament Table */
+INSERT INTO Tournament (onDate, result, coachID, stadiumID)
+VALUES ('2017-02-27', 'Win', 'I1', '2');
+INSERT INTO Tournament (onDate, result, coachID, stadiumID)
+VALUES ('2017-02-25', 'Lose', 'I2', '2');
+INSERT INTO Tournament (onDate, result, coachID, stadiumID)
+VALUES ('2017-06-27', null, 'I2', '1');
+INSERT INTO Tournament (onDate, result, coachID, stadiumID)
+VALUES ('2017-02-25', 'Win', 'I1', '1');
+
+/* PlayTour Table */
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('2','2017-02-27','2');
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('4','2017-02-27','2');
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('2','2017-02-25','2');
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('3','2017-02-25','1');
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('4','2017-02-25','1');
+INSERT INTO PlayTour (playerID, onDate, stadiumID)
+VALUES('1','2017-02-25','1');
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+/*+++++++++++++++++++++++++ TASK 2 +++++++++++++++++++++++++*/
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/*As a note, although the AS "" parts are not required for the select to function
+they help with human reading so I have kept them in where I felt they were useful*/ 
+
+/* Part A */
+SELECT p.name AS "Player Name", 
+p.telNo AS "Telephone Number", 
+t.onDate AS "Tournament Date" FROM PlayTour t JOIN Player p 
+ON t.playerID = p.playerID ORDER BY t.onDate, p.name;
+
+/* Part B */
+SELECT name, address FROM Player WHERE gender = 'M'
+UNION 
+SELECT name, address FROM Coach WHERE gender = 'M';
+
+/* Part C */
+SELECT t.onDate AS "Training Date", 
+	co.location AS "Training Location", 
+	p.playerID AS "Player ID", 
+	p.name AS "Player Name", 
+	c.coachID AS "Coach ID", 
+	c.name AS "Coach Name"
+FROM Training t JOIN Player p ON t.playerID = p.playerID
+JOIN Coach c ON t.coachID = c.coachID 
+JOIN Court co ON c.courtNo = co.courtNo
+WHERE co.location LIKE 'corridor%';  
+
+/* Part D */
+SELECT 
+COUNT(t.playerID) AS "Number of Players",
+t.onDate AS "Tournament Date", 
+s.name AS "Stadium Name", 
+c.name AS "Coach Name" FROM PlayTour t 
+JOIN Tournament tor ON t.onDate = tor.onDate AND t.stadiumID = tor.stadiumID
+JOIN Coach c ON c.coachID = tor.coachID
+JOIN Stadium s ON tor.stadiumID = s.stadiumID
+WHERE result = 'Win'
+GROUP BY t.onDate, t.stadiumID, s.name, c.name;
+
+/* Part E */
+UPDATE Tournament
+SET coachID = (SELECT coachID FROM Coach WHERE name = 'Jane Jones') 
+WHERE stadiumID = '1' AND onDate = '2017-06-27';
+
+/* Part F */
+UPDATE Training
+SET coachID = (SELECT coachID FROM Coach WHERE courtNo = (SELECT courtNo FROM Court WHERE location = 'corridor 1')) 
+WHERE atTime = '10:00' AND onDate = '2017-02-26' AND playerID = '2';

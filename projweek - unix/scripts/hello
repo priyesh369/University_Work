@@ -1,0 +1,14 @@
+#!/bin/bash
+# A small hello world progra
+# What time is it?
+ export time="$1"
+ # Who to say hello to
+ export name="$2"
+ if [ "$time" = "m" ] ; then
+ echo "Good morning $name"
+ elif [ "$time" = "a" ] ; then
+ echo "Good afternoon $name"
+ elif [ "$time" = "e" ] ; then
+ echo "Good evening $name"
+ else echo "Usage: hello m|a|e name"
+ fi

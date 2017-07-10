@@ -1,0 +1,43 @@
+% boxdemo.tex -- TeX box demo (using Knuth's code from TeX-book)
+% Fred Barnes, March 2014.
+
+\documentclass[12pt]{article}
+
+%% BEGIN TEX STUFF
+\def\dolist{\afterassignment\dodolist\let\next= }
+\def\dodolist{\ifx\next\endlist \let\next\relax
+\else \\\let\next\dolist \fi
+\next}
+\def\endlist{\endlist}
+\def\hidehrule#1#2{\kern-#1%
+\hrule height#1 depth#2 \kern-#2 }
+\def\hidevrule#1#2{\kern-#1{\dimen0=#1
+\advance\dimen0 by#2\vrule width\dimen0}\kern-#2 }
+\def\makeblankbox#1#2{\hbox{\lower\dp0\vbox{\hidehrule{#1}{#2}%
+\kern-#1 % overlap the rules at the corners
+\hbox to \wd0{\hidevrule{#1}{#2}%
+\raise\ht0\vbox to #1{}% set the vrule height
+\lower\dp0\vtop to #1{}% set the vrule depth
+\hfil\hidevrule{#2}{#1}}%
+\kern-#1\hidehrule{#2}{#1}}}}
+\def\maketypebox{\makeblankbox{0pt}{1pt}}
+\def\makelightbox{\makeblankbox{.2pt}{.2pt}}
+\def\\{\if\space\next\ % assume that \next is unexpandable
+\else \setbox0=\hbox{\next}\maketypebox\fi}
+\def\demobox#1{#1~\setbox0=\hbox{\dolist#1\endlist}%
+\leavevmode\copy0\kern-\wd0\makelightbox\par}
+%% END TEX STUFF
+
+
+\pagestyle{empty}		% no page numbers please
+
+\begin{document}
+
+\demobox{Hello, \LaTeX~world!}
+
+\demobox{Things in boxes}
+
+\end{document}
+\endinput
+
+

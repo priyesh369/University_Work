@@ -1,0 +1,35 @@
+% doc4.tex -- sample document (with bibliography)
+% Fred Barnes, March 2014.
+
+\documentclass[a4paper,12pt]{article}
+\usepackage{times}
+\usepackage{natbib}
+\usepackage{hyperref}
+
+\pagestyle{empty}
+\renewcommand{\ttdefault}{cmtt}
+
+\begin{document}
+
+\title{My Assessment 4}
+\author{J.~Random User\\{\small\tt jru2@kent.ac.uk}}
+\date{\today}
+
+\maketitle
+\thispagestyle{empty}
+
+\section{Introduction}
+This document includes some bibliographic references
+to things.  There's an interesting paper by Donald
+Knuth, {\em Computer Programming as an Art} \cite{Knuth:1974}.
+And some other papers related to typesetting~%
+\cite{Kernighan/Cherry:1975,deAlmeida:2004,Kaufman:1981}.
+I've also included a reference to the {\em ACM digital
+library}~\cite{DL:2014}.
+
+\bibliographystyle{unsrt}
+\bibliography{test}
+
+\end{document}
+\endinput
+
